@@ -31,20 +31,21 @@ function formatTime(t) {
 function addMinutes(t, minutes) {
     t.setMinutes(t.getMinutes() + minutes);
 }
-$(document).ready(function () {
-    var picker = new Picker(document.querySelector('.js-time-picker'), {
-        format: 'HH:mm',
-    });
+function parseTime(timeString) {
     var now = new Date();
-    var startTime = picker.getDate();
-    showStartSequence(startTime);
-    $('.js-time-picker').on('pick', function(p) {
-        var pickedDate = p.target.picker.getDate();
-        showStartSequence(pickedDate);
+    var hour = timeString.split(":")[0];
+    var minute = timeString.split(":")[1];
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0, 0);
+}
+$(document).ready(function () {
+    showStartSequence($('#first_start').val());
+    $('#first_start').on('input', function(p) {
+        showStartSequence(p.target.value);
     });
 });
 
-function showStartSequence(startTime) {
+function showStartSequence(timeString) {
+    var startTime = parseTime(timeString);
     $("#starts").empty().append(
         $('<tr/>').append(
             $('<th/>').text('Event'),
