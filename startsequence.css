@@ -1,15 +1,21 @@
 * {
     font-family: 'Lato', sans-serif;
+    font-size: 3vw;
+}
+body {
+    width:100%;
+}
+table {
+    width:100%;
 }
 th {
-    font-weight: bold;   
+    padding: 2vw;
+    font-weight: bold;
+    text-align: left;
 }
-tr {
-    margin: 3px;
-}
-h2 {
-    font-size: 0.5rem;
+td {
+    padding: 2vw;
 }
 input {
-    font-size: 2rem;
+    font-size: 6vw;
 }
