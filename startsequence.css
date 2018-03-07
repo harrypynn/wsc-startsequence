@@ -7,3 +7,9 @@ th {
 tr {
     margin: 3px;
 }
+h2 {
+    font-size: 0.5rem;
+}
+input {
+    font-size: 2rem;
+}
