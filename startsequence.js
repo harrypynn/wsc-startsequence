@@ -48,8 +48,8 @@ function showStartSequence(timeString) {
     var startTime = parseTime(timeString);
     $("#starts").empty().append(
         $('<tr/>').append(
-            $('<th/>').text('Event'),
             $('<th/>').text('Time'),
+            $('<th/>').text('Event'),
             $('<th/>').text('Up'),
             $('<th/>').text('Down')
         )
@@ -88,10 +88,10 @@ function showStartSequence(timeString) {
         $("#starts").append(
             $("<tr/>").append(
                 $("<td/>").text(
-                    el.name
+                    el.time
                 ),
                 $("<td/>").text(
-                    el.time
+                    el.name
                 ),
                 $("<td/>").text(
                     el.up
