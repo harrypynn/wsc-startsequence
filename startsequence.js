@@ -28,6 +28,10 @@ function formatTime(t) {
     var minutes = "0" + t.getMinutes();
     return t.getHours() + ":" + minutes.substr(-2);
 }
+function formatTimeWithSeconds(t) {
+    var secs = "0" + t.getSeconds();
+    return formatTime(t) + ":" + secs.substr(-2);
+}
 function addMinutes(t, minutes) {
     t.setMinutes(t.getMinutes() + minutes);
 }
@@ -37,13 +41,6 @@ function parseTime(timeString) {
     var minute = timeString.split(":")[1];
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0, 0);
 }
-$(document).ready(function () {
-    showStartSequence($('#first_start').val());
-    $('#first_start').on('input', function(p) {
-        showStartSequence(p.target.value);
-    });
-});
-
 function showStartSequence(timeString) {
     var startTime = parseTime(timeString);
     $("#starts").empty().append(
@@ -103,3 +100,16 @@ function showStartSequence(timeString) {
         );
     });
 }
+function clock(){
+    var currentTime = new Date();
+    $("#clock").text(formatTimeWithSeconds(currentTime));
+}
+$(document).ready(function () {
+    clock();
+    setInterval(clock, 100);
+    
+    showStartSequence($('#first_start').val());
+    $('#first_start').on('input', function(p) {
+        showStartSequence(p.target.value);
+    });
+});
