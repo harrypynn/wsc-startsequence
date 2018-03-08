@@ -117,7 +117,6 @@ function clock(){
             $(el).removeClass("thisStart");
         }
         if (timeId > currentTime && timeId <= addMinutes(currentTime, 1)) {
-            console.log('current: ' + currentTime + ' timeId: ' + timeId);
             $(el).addClass("thisStart");
         }
         else {
@@ -129,8 +128,12 @@ $(document).ready(function () {
     clock();
     setInterval(clock, 100);
     
+    if (window.localStorage.getItem("startTime")) {
+        $('#first_start').val(window.localStorage.getItem("startTime"));
+    }
     showStartSequence($('#first_start').val());
     $('#first_start').on('input', function(p) {
         showStartSequence(p.target.value);
+        window.localStorage.setItem("startTime", p.target.value);
     });
 });
