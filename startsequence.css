@@ -19,6 +19,12 @@ td {
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+tr.past {
+    color: bfbfbf;
+}
+tr.thisStart {
+    background-color: yellow;
+}
 input {
     font-size: 6vw;
 }

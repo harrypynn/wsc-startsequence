@@ -33,7 +33,9 @@ function formatTimeWithSeconds(t) {
     return formatTime(t) + ":" + secs.substr(-2);
 }
 function addMinutes(t, minutes) {
-    t.setMinutes(t.getMinutes() + minutes);
+    var d = new Date(t.getTime());
+    d.setMinutes(d.getMinutes() + minutes);
+    return d;
 }
 function parseTime(timeString) {
     var now = new Date();
@@ -54,7 +56,7 @@ function showStartSequence(timeString) {
 
     var flags = [];
     var flagTime = startTime;
-    addMinutes(flagTime, -3);
+    flagTime = addMinutes(flagTime, -3);
     $.each(starts, function (i, el) {
         var lastStart = flags[flags.length - 1];
         if (lastStart) {
@@ -64,28 +66,31 @@ function showStartSequence(timeString) {
         else {
             flags.push({
                 name: el.name + " 3 minute",
-                time: formatTime(flagTime),
+                time: flagTime,
                 up: el.flag + ', P'
             });
         }
-        addMinutes(flagTime, 2);
+        flagTime = addMinutes(flagTime, 2);
         flags.push({
             name: el.name + " 1 minute",
-            time: formatTime(flagTime),
+            time: flagTime,
             down: 'P'
         });
-        addMinutes(flagTime, 1);
+        flagTime = addMinutes(flagTime, 1);
         flags.push({
             name: el.name + " Start",
-            time: formatTime(flagTime),
+            time: flagTime,
             down: el.flag
         });
     });
     $.each(flags, function (i, el) {
         $("#starts").append(
-            $("<tr/>").append(
+            $("<tr/>").attr({
+                "id":  el.time.getTime(),
+                "class": "timeRow"
+            }).append(
                 $("<td/>").text(
-                    el.time
+                    formatTime(el.time)
                 ),
                 $("<td/>").text(
                     el.name
@@ -102,7 +107,23 @@ function showStartSequence(timeString) {
 }
 function clock(){
     var currentTime = new Date();
-    $("#clock").text(formatTimeWithSeconds(currentTime));
+    var currentTimeString = formatTimeWithSeconds(currentTime);
+    var currentTimeInt = parseInt(currentTimeString.replace(/:/g, ""));
+    $("#clock").text(currentTimeString);
+    $(".timeRow").each(function(i, el) {
+        var timeId = parseInt($(el).attr("id"));
+        if (timeId < currentTime) {
+            $(el).addClass("past");
+            $(el).removeClass("thisStart");
+        }
+        if (timeId > currentTime && timeId <= addMinutes(currentTime, 1)) {
+            console.log('current: ' + currentTime + ' timeId: ' + timeId);
+            $(el).addClass("thisStart");
+        }
+        else {
+            $(el).removeClass("thisStart");
+        }
+    });
 }
 $(document).ready(function () {
     clock();
