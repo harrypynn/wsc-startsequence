@@ -1,6 +1,6 @@
 * {
     font-family: 'Lato', sans-serif;
-    font-size: 3vw;
+    font-size: 4vw;
 }
 body {
     width:100%;
@@ -20,11 +20,18 @@ tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 tr.past {
-    color: bfbfbf;
+    display:none;
 }
 tr.thisStart {
     background-color: yellow;
 }
 input {
     font-size: 6vw;
+}
+
+.bigcounter {
+    font-size:24vw;
+    color:green;
+    font-weight:bold;
+    text-align:center;
 }

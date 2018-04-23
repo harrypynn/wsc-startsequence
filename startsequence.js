@@ -37,6 +37,39 @@ function addMinutes(t, minutes) {
     d.setMinutes(d.getMinutes() + minutes);
     return d;
 }
+
+function secondsToHrsMinsSecs(d) {
+
+    d = 1 + Number(d);
+    
+    if( d > -1) {
+        
+        var h = Math.floor(d / 3600);
+        var m = Math.floor(d % 3600 / 60);
+        var s = Math.floor(d % 3600 % 60);
+        
+        var result = "";
+        
+        if( h > 0 ) {
+            result += h + ":";
+        }
+        if( m > 0 ) {
+            result += numberTo2Digit(m) + ":";
+        }
+        
+        result += numberTo2Digit(s);
+    
+    }
+    else {
+        result = "-";
+    }
+    return result; 
+}
+function numberTo2Digit(j) {
+  return ('0' + j).slice(-2);
+}
+
+
 function parseTime(timeString) {
     var now = new Date();
     var hour = timeString.split(":")[0];
@@ -110,19 +143,30 @@ function clock(){
     var currentTimeString = formatTimeWithSeconds(currentTime);
     var currentTimeInt = parseInt(currentTimeString.replace(/:/g, ""));
     $("#clock").text(currentTimeString);
+    
+    var nextActionTime = -1;
     $(".timeRow").each(function(i, el) {
         var timeId = parseInt($(el).attr("id"));
         if (timeId < currentTime) {
             $(el).addClass("past");
             $(el).removeClass("thisStart");
         }
-        if (timeId > currentTime && timeId <= addMinutes(currentTime, 1)) {
-            $(el).addClass("thisStart");
-        }
         else {
-            $(el).removeClass("thisStart");
+            if(nextActionTime == -1) {
+                nextActionTime = timeId;
+            }
+            
+            if (timeId > currentTime && timeId <= addMinutes(currentTime, 1)) {
+                $(el).addClass("thisStart");
+            }
+            else {
+                $(el).removeClass("thisStart");
+            }
         }
     });
+
+    //  update the countdown timer
+    $("#countdown").html( secondsToHrsMinsSecs((nextActionTime - currentTime) /1000));
 }
 $(document).ready(function () {
     clock();
