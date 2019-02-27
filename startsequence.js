@@ -1,22 +1,22 @@
 var starts = [
     {
-        name: "Lark and RS 200",
-        flag: "Lark Insignia"
+        name: "RS 200",
+        flag: "RS Insignia"
     },
     {
         name: "Cadet",
         flag: "Y"
     },
     {
-        name: "Dragonfly",
-        flag: "W"
+        name: "K Start",
+        flag: "K"
     },
     {
         name: "Wayfarer",
         flag: "Wayfarer Insignia"
     },
     {
-        name: "Laser",
+        name: "Laser & Radial",
         flag: "Laser Insignia"
     },
     {
