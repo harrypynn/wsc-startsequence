@@ -159,9 +159,9 @@ function showStartSequence(starts, timeString) {
     });
 }
 function showStartListCheckboxes(starts) {
-    let removed = getRemovedStarts();
+    var removed = getRemovedStarts();
     $.each(starts, function(i, el) {
-        let checked = jQuery.inArray(el.name, removed) == -1;
+        var checked = jQuery.inArray(el.name, removed) == -1;
 
         $('#startList').append(
             $('<div/>').append(
