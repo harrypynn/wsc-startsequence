@@ -192,7 +192,6 @@ function clock(){
 $(document).ready(function () {
     clock();
     setInterval(clock, 100);
-    showStartListCheckboxes(getSelectedStarts());
     
     if (window.localStorage.getItem("startTime")) {
         $('#first_start').val(window.localStorage.getItem("startTime"));
@@ -203,6 +202,8 @@ $(document).ready(function () {
         window.localStorage.setItem("startTime", p.target.value);
     });
     $('#edit').on('click', function(p) {
+        $('#startList').empty();
+        showStartListCheckboxes(getSelectedStarts());
         $('#startList').toggle();
     });
 
