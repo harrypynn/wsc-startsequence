@@ -146,17 +146,25 @@ function showStartSequence(starts, timeString) {
     });
 }
 function showStartListCheckboxes(starts) {
-    let removed = window.localStorage.getItem("removedStarts") || [];
+    let removed = JSON.parse(window.localStorage.getItem("removedStarts")) || [];
     $.each(starts, function(i, el) {
         let checked = removed.includes(el.name) ? '' : 'checked="checked"';
 
         $('#startList').append(
             $('<div/>').append(
-                '<label><input type="checkbox" name="checkbox" value="value" ' + checked + '>' + el.name + '</label>'
-            ).click(function() {
-                removed.push(el.name)
+                $('<label/>').text(el.name).append(
+                    $('<input/>').attr({type:"checkbox", name:"checkbox", value:el.name, checked: checked})
+
+            .click(function(el2) {
+                if($(this).is(":checked")) {
+                    removed.splice( $.inArray(el.name, removed), 1 );
+                }
+                else {
+                    removed.push(el.name)
+                }
+                window.localStorage.setItem("removedStarts", JSON.stringify(removed));
             })
-        );
+        )));
     });
 }
 function clock(){
@@ -198,7 +206,7 @@ $(document).ready(function () {
     }
     showStartSequence(getSelectedStarts(), $('#first_start').val());
     $('#first_start').on('input', function(p) {
-        showStartSequence(p.target.value);
+        showStartSequence(getSelectedStarts(), p.target.value);
         window.localStorage.setItem("startTime", p.target.value);
     });
     $('#edit').on('click', function(p) {
