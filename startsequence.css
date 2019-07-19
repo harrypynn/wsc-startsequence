@@ -3,7 +3,8 @@
     font-size: 4vw;
 }
 body {
-    width:100%;
+    width:90%;
+    padding:5%;
 }
 table {
     width:100%;
@@ -34,4 +35,7 @@ input {
     color:green;
     font-weight:bold;
     text-align:center;
+}
+#edit {
+    font-size: 2vw;
 }
