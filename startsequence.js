@@ -1,4 +1,4 @@
-function getSelectedStarts() {
+function getAllStarts() {
     return [
     {
         name: "RS 200",
@@ -26,7 +26,20 @@ function getSelectedStarts() {
     }
     ];
 }
-
+function getRemovedStarts() {
+    return JSON.parse(window.localStorage.getItem("removedStarts")) || [];
+}
+function getSelectedStarts() {
+    var allStarts = getAllStarts();
+    var removed = getRemovedStarts();
+    var ret = [];
+    $.each(allStarts, function (i, el) {
+        if(jQuery.inArray(el.name, removed) == -1) {
+            ret.push(el);
+        }
+    });
+    return ret;
+}
 function formatTime(t) {
     var minutes = "0" + t.getMinutes();
     return t.getHours() + ":" + minutes.substr(-2);
@@ -146,7 +159,7 @@ function showStartSequence(starts, timeString) {
     });
 }
 function showStartListCheckboxes(starts) {
-    let removed = JSON.parse(window.localStorage.getItem("removedStarts")) || [];
+    let removed = getRemovedStarts();
     $.each(starts, function(i, el) {
         let checked = jQuery.inArray(el.name, removed) == -1;
 
@@ -211,7 +224,7 @@ $(document).ready(function () {
     });
     $('#edit').on('click', function(p) {
         $('#startList').empty();
-        showStartListCheckboxes(getSelectedStarts());
+        showStartListCheckboxes(getAllStarts());
         $('#startList').toggle();
     });
 
