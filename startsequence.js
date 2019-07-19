@@ -1,4 +1,5 @@
-var starts = [
+function getSelectedStarts() {
+    return [
     {
         name: "RS 200",
         flag: "RS Insignia"
@@ -23,7 +24,9 @@ var starts = [
         name: "Squib",
         flag: "Nav 9"
     }
-];
+    ];
+}
+
 function formatTime(t) {
     var minutes = "0" + t.getMinutes();
     return t.getHours() + ":" + minutes.substr(-2);
@@ -76,7 +79,7 @@ function parseTime(timeString) {
     var minute = timeString.split(":")[1];
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0, 0);
 }
-function showStartSequence(timeString) {
+function showStartSequence(starts, timeString) {
     var startTime = parseTime(timeString);
     $("#starts").empty().append(
         $('<tr/>').append(
@@ -142,7 +145,7 @@ function showStartSequence(timeString) {
         );
     });
 }
-function showStartListCheckboxes() {
+function showStartListCheckboxes(starts) {
     let removed = window.localStorage.getItem("removedStarts") || [];
     $.each(starts, function(i, el) {
         let checked = removed.includes(el.name) ? '' : 'checked="checked"';
@@ -189,12 +192,12 @@ function clock(){
 $(document).ready(function () {
     clock();
     setInterval(clock, 100);
-    showStartListCheckboxes();
+    showStartListCheckboxes(getSelectedStarts());
     
     if (window.localStorage.getItem("startTime")) {
         $('#first_start').val(window.localStorage.getItem("startTime"));
     }
-    showStartSequence($('#first_start').val());
+    showStartSequence(getSelectedStarts(), $('#first_start').val());
     $('#first_start').on('input', function(p) {
         showStartSequence(p.target.value);
         window.localStorage.setItem("startTime", p.target.value);
