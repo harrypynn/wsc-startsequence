@@ -148,12 +148,12 @@ function showStartSequence(starts, timeString) {
 function showStartListCheckboxes(starts) {
     let removed = JSON.parse(window.localStorage.getItem("removedStarts")) || [];
     $.each(starts, function(i, el) {
-        let checked = removed.includes(el.name) ? '' : 'checked="checked"';
+        let checked = jQuery.inArray(el.name, removed) == -1;
 
         $('#startList').append(
             $('<div/>').append(
                 $('<label/>').text(el.name).append(
-                    $('<input/>').attr({type:"checkbox", name:"checkbox", value:el.name, checked: checked})
+                    $('<input/>').attr({type:"checkbox", name:"checkbox", value:el.name}).prop( "checked", checked )
 
             .click(function(el2) {
                 if($(this).is(":checked")) {
