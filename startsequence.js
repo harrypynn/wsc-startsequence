@@ -83,7 +83,8 @@ function showStartSequence(timeString) {
             $('<th/>').text('Time'),
             $('<th/>').text('Event'),
             $('<th/>').text('Up'),
-            $('<th/>').text('Down')
+            $('<th/>').text('Down'),
+            $('<th/>')
         )
     );
 
@@ -98,6 +99,7 @@ function showStartSequence(timeString) {
         }
         else {
             flags.push({
+                startName: el.name,
                 name: el.name + " 3 minute",
                 time: flagTime,
                 up: el.flag + ', P'
@@ -105,12 +107,14 @@ function showStartSequence(timeString) {
         }
         flagTime = addMinutes(flagTime, 2);
         flags.push({
+            startName: el.name,
             name: el.name + " 1 minute",
             time: flagTime,
             down: 'P'
         });
         flagTime = addMinutes(flagTime, 1);
         flags.push({
+            startName: el.name,
             name: el.name + " Start",
             time: flagTime,
             down: el.flag
@@ -135,6 +139,20 @@ function showStartSequence(timeString) {
                     el.down
                 )
             )
+        );
+    });
+}
+function showStartListCheckboxes() {
+    let removed = window.localStorage.getItem("removedStarts") || [];
+    $.each(starts, function(i, el) {
+        let checked = removed.includes(el.name) ? '' : 'checked="checked"';
+
+        $('#startList').append(
+            $('<div/>').append(
+                '<label><input type="checkbox" name="checkbox" value="value" ' + checked + '>' + el.name + '</label>'
+            ).click(function() {
+                removed.push(el.name)
+            })
         );
     });
 }
@@ -171,6 +189,7 @@ function clock(){
 $(document).ready(function () {
     clock();
     setInterval(clock, 100);
+    showStartListCheckboxes();
     
     if (window.localStorage.getItem("startTime")) {
         $('#first_start').val(window.localStorage.getItem("startTime"));
@@ -180,4 +199,8 @@ $(document).ready(function () {
         showStartSequence(p.target.value);
         window.localStorage.setItem("startTime", p.target.value);
     });
+    $('#edit').on('click', function(p) {
+        $('#startList').toggle();
+    });
+
 });
