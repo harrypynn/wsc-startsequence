@@ -176,6 +176,7 @@ function showStartListCheckboxes(starts) {
                     removed.push(el.name)
                 }
                 window.localStorage.setItem("removedStarts", JSON.stringify(removed));
+                showStartSequence(getSelectedStarts(), $('#first_start').val());
             })
         )));
     });
