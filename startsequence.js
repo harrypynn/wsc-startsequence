@@ -262,6 +262,7 @@ $(document).ready(function () {
         $('#startList').empty();
         showStartListCheckboxes(getAllStarts());
         loadFirstStart();
+        showStartSequence(getSelectedStarts(), $('#first_start').val());
     });
     showStartSequence(getSelectedStarts(), $('#first_start').val());
     $('#first_start').on('input', function(p) {
