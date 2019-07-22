@@ -1,33 +1,62 @@
 function getAllStarts() {
-    return [
-    {
-        name: "RS 200",
-        flag: "RS Insignia"
-    },
-    {
-        name: "Cadet",
-        flag: "Y"
-    },
-    {
-        name: "K Start",
-        flag: "K"
-    },
-    {
-        name: "Wayfarer",
-        flag: "Wayfarer Insignia"
-    },
-    {
-        name: "Laser & Radial",
-        flag: "Laser Insignia"
-    },
-    {
-        name: "Squib",
-        flag: "Nav 9"
-    }
-    ];
+    var starts = {
+        'saturday' : [
+            {
+                name: "RS 200",
+                flag: "RS Insignia"
+            },
+            {
+                name: "Cadet",
+                flag: "Y"
+            },
+            {
+                name: "K Start",
+                flag: "K"
+            },
+            {
+                name: "Wayfarer",
+                flag: "Wayfarer Insignia"
+            },
+            {
+                name: "Laser & Radial",
+                flag: "Laser Insignia"
+            },
+            {
+                name: "Squib",
+                flag: "Nav 9"
+            }
+        ],
+        'wednesday' : [
+            {
+                name: "Laser",
+                flag: "Laser Insignia"
+            },
+            {
+                name: "Dragonfly",
+                flag: "W"
+            },
+            {
+                name: "Fast Handicap",
+                flag: "E"
+            },
+            {
+                name: "Squib",
+                flag: "Nav 9"
+            },
+            {
+                name: "Slow Handicap",
+                flag: "K"
+            }
+        ]
+    };
+    var day = getSelectedDay();
+    return starts[day];
+}
+function getSelectedDay() {
+    return $('input[type=radio][name=day]:checked').val();
 }
 function getRemovedStarts() {
-    return JSON.parse(window.localStorage.getItem("removedStarts")) || [];
+    return JSON.parse(window.localStorage.getItem("removedStarts." + getSelectedDay())) || [];
 }
 function getSelectedStarts() {
     var allStarts = getAllStarts();
@@ -175,7 +204,7 @@ function showStartListCheckboxes(starts) {
                 else {
                     removed.push(el.name)
                 }
-                window.localStorage.setItem("removedStarts", JSON.stringify(removed));
+                window.localStorage.setItem("removedStarts." + getSelectedDay(), JSON.stringify(removed));
                 showStartSequence(getSelectedStarts(), $('#first_start').val());
             })
         )));
@@ -227,6 +256,8 @@ $(document).ready(function () {
     }
     $('input[name=day]').change(function() {
         window.localStorage.setItem("day", this.value);
+        $('#startList').empty();
+        showStartListCheckboxes(getAllStarts());
     });
     showStartSequence(getSelectedStarts(), $('#first_start').val());
     $('#first_start').on('input', function(p) {
