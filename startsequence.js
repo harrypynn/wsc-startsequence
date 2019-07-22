@@ -218,6 +218,16 @@ $(document).ready(function () {
     if (window.localStorage.getItem("startTime")) {
         $('#first_start').val(window.localStorage.getItem("startTime"));
     }
+    if (window.localStorage.getItem("day")) {
+        var day = window.localStorage.getItem("day");
+        var $radios = $('input:radio[name=day]');
+        if($radios.is(':checked') === false) {
+            $radios.filter('[value=' + day + ']').prop('checked', true);
+        }
+    }
+    $('input[name=day]').change(function() {
+        window.localStorage.setItem("day", this.value);
+    });
     showStartSequence(getSelectedStarts(), $('#first_start').val());
     $('#first_start').on('input', function(p) {
         showStartSequence(getSelectedStarts(), p.target.value);
