@@ -244,17 +244,22 @@ function loadFirstStart() {
     if (window.localStorage.getItem("startTime." + getSelectedSeries())) {
         $('#first_start').val(window.localStorage.getItem("startTime." + getSelectedSeries()));
     }
+    else {
+        var defaultStartTime = 'wednesday' == getSelectedSeries() ? '18:54' : '13:20';
+        $('#first_start').val(defaultStartTime);
+    }
 }
 $(document).ready(function () {
     clock();
     setInterval(clock, 100);
-    
+
+    var series = 'saturday';
     if (window.localStorage.getItem("series")) {
-        var series = window.localStorage.getItem("series");
-        var $radios = $('input:radio[name=series]');
-        if($radios.is(':checked') === false) {
-            $radios.filter('[value=' + series + ']').prop('checked', true);
-        }
+        series = window.localStorage.getItem("series");
+    }
+    var $radios = $('input:radio[name=series]');
+    if($radios.is(':checked') === false) {
+        $radios.filter('[value=' + series + ']').prop('checked', true);
     }
     loadFirstStart();
     $('input[name=series]').change(function() {
