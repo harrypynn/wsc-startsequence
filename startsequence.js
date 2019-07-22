@@ -49,11 +49,11 @@ function getAllStarts() {
             }
         ]
     };
-    var day = getSelectedSeries();
-    return starts[day];
+    var series = getSelectedSeries();
+    return starts[series];
 }
 function getSelectedSeries() {
-    return $('input[type=radio][name=day]:checked').val();
+    return $('input[type=radio][name=series]:checked').val();
 }
 function getRemovedStarts() {
     return JSON.parse(window.localStorage.getItem("removedStarts." + getSelectedSeries())) || [];
@@ -249,16 +249,16 @@ $(document).ready(function () {
     clock();
     setInterval(clock, 100);
     
-    if (window.localStorage.getItem("day")) {
-        var day = window.localStorage.getItem("day");
-        var $radios = $('input:radio[name=day]');
+    if (window.localStorage.getItem("series")) {
+        var series = window.localStorage.getItem("series");
+        var $radios = $('input:radio[name=series]');
         if($radios.is(':checked') === false) {
-            $radios.filter('[value=' + day + ']').prop('checked', true);
+            $radios.filter('[value=' + series + ']').prop('checked', true);
         }
     }
     loadFirstStart();
-    $('input[name=day]').change(function() {
-        window.localStorage.setItem("day", this.value);
+    $('input[name=series]').change(function() {
+        window.localStorage.setItem("series", this.value);
         $('#startList').empty();
         showStartListCheckboxes(getAllStarts());
         loadFirstStart();
