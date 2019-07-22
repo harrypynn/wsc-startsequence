@@ -240,13 +240,15 @@ function clock(){
     //  update the countdown timer
     $("#countdown").html( secondsToHrsMinsSecs((nextActionTime - currentTime) /1000));
 }
+function loadFirstStart() {
+    if (window.localStorage.getItem("startTime." + getSelectedDay())) {
+        $('#first_start').val(window.localStorage.getItem("startTime." + getSelectedDay()));
+    }
+}
 $(document).ready(function () {
     clock();
     setInterval(clock, 100);
     
-    if (window.localStorage.getItem("startTime")) {
-        $('#first_start').val(window.localStorage.getItem("startTime"));
-    }
     if (window.localStorage.getItem("day")) {
         var day = window.localStorage.getItem("day");
         var $radios = $('input:radio[name=day]');
@@ -254,15 +256,17 @@ $(document).ready(function () {
             $radios.filter('[value=' + day + ']').prop('checked', true);
         }
     }
+    loadFirstStart();
     $('input[name=day]').change(function() {
         window.localStorage.setItem("day", this.value);
         $('#startList').empty();
         showStartListCheckboxes(getAllStarts());
+        loadFirstStart();
     });
     showStartSequence(getSelectedStarts(), $('#first_start').val());
     $('#first_start').on('input', function(p) {
         showStartSequence(getSelectedStarts(), p.target.value);
-        window.localStorage.setItem("startTime", p.target.value);
+        window.localStorage.setItem("startTime." + getSelectedDay(), p.target.value);
     });
     $('#edit').on('click', function(p) {
         $('#startList').empty();
