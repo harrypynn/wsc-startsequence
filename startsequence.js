@@ -274,7 +274,7 @@ $(document).ready(function () {
         showStartSequence(getSelectedStarts(), p.target.value);
         window.localStorage.setItem("startTime." + getSelectedSeries(), p.target.value);
     });
-    $('#edit').on('click', function(p) {
+    $('#editSettings').on('click', function(p) {
         $('#startList').empty();
         showStartListCheckboxes(getAllStarts());
         $('#settings').toggle();
