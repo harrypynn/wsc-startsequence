@@ -226,7 +226,7 @@ $(document).ready(function () {
     $('#edit').on('click', function(p) {
         $('#startList').empty();
         showStartListCheckboxes(getAllStarts());
-        $('#startList').toggle();
+        $('#settings').toggle();
     });
 
 });
