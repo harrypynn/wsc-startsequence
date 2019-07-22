@@ -49,14 +49,14 @@ function getAllStarts() {
             }
         ]
     };
-    var day = getSelectedDay();
+    var day = getSelectedSeries();
     return starts[day];
 }
-function getSelectedDay() {
+function getSelectedSeries() {
     return $('input[type=radio][name=day]:checked').val();
 }
 function getRemovedStarts() {
-    return JSON.parse(window.localStorage.getItem("removedStarts." + getSelectedDay())) || [];
+    return JSON.parse(window.localStorage.getItem("removedStarts." + getSelectedSeries())) || [];
 }
 function getSelectedStarts() {
     var allStarts = getAllStarts();
@@ -204,7 +204,7 @@ function showStartListCheckboxes(starts) {
                 else {
                     removed.push(el.name)
                 }
-                window.localStorage.setItem("removedStarts." + getSelectedDay(), JSON.stringify(removed));
+                window.localStorage.setItem("removedStarts." + getSelectedSeries(), JSON.stringify(removed));
                 showStartSequence(getSelectedStarts(), $('#first_start').val());
             })
         )));
@@ -241,8 +241,8 @@ function clock(){
     $("#countdown").html( secondsToHrsMinsSecs((nextActionTime - currentTime) /1000));
 }
 function loadFirstStart() {
-    if (window.localStorage.getItem("startTime." + getSelectedDay())) {
-        $('#first_start').val(window.localStorage.getItem("startTime." + getSelectedDay()));
+    if (window.localStorage.getItem("startTime." + getSelectedSeries())) {
+        $('#first_start').val(window.localStorage.getItem("startTime." + getSelectedSeries()));
     }
 }
 $(document).ready(function () {
@@ -267,7 +267,7 @@ $(document).ready(function () {
     showStartSequence(getSelectedStarts(), $('#first_start').val());
     $('#first_start').on('input', function(p) {
         showStartSequence(getSelectedStarts(), p.target.value);
-        window.localStorage.setItem("startTime." + getSelectedDay(), p.target.value);
+        window.localStorage.setItem("startTime." + getSelectedSeries(), p.target.value);
     });
     $('#edit').on('click', function(p) {
         $('#startList').empty();
