@@ -10,7 +10,7 @@ function getAllStarts() {
                 flag: "Y"
             },
             {
-                name: "K Start",
+                name: "K-Class",
                 flag: "K"
             },
             {
