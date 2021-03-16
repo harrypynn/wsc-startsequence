@@ -72,7 +72,6 @@ function getSelectedStarts() {
     });
     var generalRecalls = getGeneralRecalls();
     $.each(ret, function (i, el) {
-        console.log(el.name);
         if(jQuery.inArray(el.name, generalRecalls) > -1) {
             ret.push(el);
         }
