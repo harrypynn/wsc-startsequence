@@ -58,12 +58,22 @@ function getSelectedSeries() {
 function getRemovedStarts() {
     return JSON.parse(window.localStorage.getItem("removedStarts." + getSelectedSeries())) || [];
 }
+function getGeneralRecalls() {
+    return JSON.parse(window.localStorage.getItem("generalRecalls." + getSelectedSeries())) || [];
+}
 function getSelectedStarts() {
     var allStarts = getAllStarts();
     var removed = getRemovedStarts();
     var ret = [];
     $.each(allStarts, function (i, el) {
         if(jQuery.inArray(el.name, removed) == -1) {
+            ret.push(el);
+        }
+    });
+    var generalRecalls = getGeneralRecalls();
+    $.each(ret, function (i, el) {
+        console.log(el.name);
+        if(jQuery.inArray(el.name, generalRecalls) > -1) {
             ret.push(el);
         }
     });
@@ -189,8 +199,10 @@ function showStartSequence(starts, timeString) {
 }
 function showStartListCheckboxes(starts) {
     var removed = getRemovedStarts();
+    var generalRecalls = getGeneralRecalls();
     $.each(starts, function(i, el) {
         var checked = jQuery.inArray(el.name, removed) == -1;
+        var generalRecalled = jQuery.inArray(el.name, generalRecalls) > -1;
 
         $('#startList').append(
             $('<div/>').append(
@@ -202,14 +214,27 @@ function showStartListCheckboxes(starts) {
                     removed.splice( $.inArray(el.name, removed), 1 );
                 }
                 else {
-                    removed.push(el.name)
+                    removed.push(el.name);
                 }
                 window.localStorage.setItem("removedStarts." + getSelectedSeries(), JSON.stringify(removed));
                 showStartSequence(getSelectedStarts(), $('#first_start').val());
             })
         ),
-            $('<button/>').text('General Recall').addClass('general_recall').click(function() {
+            $('<button/>').text('General Recall')
+                          .addClass('general_recall')
+                          .addClass(function() {
+                              return generalRecalled ? 'on' : '';
+                          })
+                          .click(function() {
                 $(this).toggleClass("on");
+                if($(this).hasClass("on")) {
+                    generalRecalls.push(el.name);
+                }
+                else {
+                    generalRecalls.splice( $.inArray(el.name, generalRecalls), 1 );
+                }
+                window.localStorage.setItem("generalRecalls." + getSelectedSeries(), JSON.stringify(generalRecalls));
+                showStartSequence(getSelectedStarts(), $('#first_start').val());
               })
         ));
     });
