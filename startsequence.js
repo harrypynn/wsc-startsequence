@@ -207,7 +207,11 @@ function showStartListCheckboxes(starts) {
                 window.localStorage.setItem("removedStarts." + getSelectedSeries(), JSON.stringify(removed));
                 showStartSequence(getSelectedStarts(), $('#first_start').val());
             })
-        )));
+        ),
+            $('<button/>').text('General Recall').addClass('general_recall').click(function() {
+                $(this).toggleClass("on");
+              })
+        ));
     });
 }
 function clock(){
