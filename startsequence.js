@@ -47,6 +47,8 @@ function getAllStarts() {
                 name: "Slow Handicap",
                 flag: "K"
             }
+        ],
+        'custom' : [
         ]
     };
     var series = getSelectedSeries();
@@ -332,6 +334,10 @@ function loadSeries() {
     if($radios.is(':checked') === false) {
         $radios.filter('[value=' + series + ']').prop('checked', true);
     }
+    if ('custom' != series) {
+        $('#addCustomStart').hide();
+    }
+    return series;
 }
 function loadSequence() {
     var sequence = 'sequence3';
@@ -352,6 +358,20 @@ function loadFirstStart() {
         $('#first_start').val(defaultStartTime);
     }
 }
+
+function redrawStartList() {
+    $('#startList').empty();
+    showStartListCheckboxes(getAllStarts());
+    loadFirstStart();
+    showStartSequence(getSelectedStarts(), $('#first_start').val());
+    if ('custom' == loadSeries()) {
+        $('#addCustomStart').show();
+    }
+    else {
+        $('#addCustomStart').hide();
+    }
+}
+
 $(document).ready(function () {
     clock();
     setInterval(clock, 100);
@@ -361,17 +381,11 @@ $(document).ready(function () {
     loadFirstStart();
     $('input[name=series]').change(function() {
         window.localStorage.setItem("series", this.value);
-        $('#startList').empty();
-        showStartListCheckboxes(getAllStarts());
-        loadFirstStart();
-        showStartSequence(getSelectedStarts(), $('#first_start').val());
+        redrawStartList();
     });
     $('input[name=sequence]').change(function() {
         window.localStorage.setItem("sequence", this.value);
-        $('#startList').empty();
-        showStartListCheckboxes(getAllStarts());
-        loadFirstStart();
-        showStartSequence(getSelectedStarts(), $('#first_start').val());
+        redrawStartList();
     });
     showStartSequence(getSelectedStarts(), $('#first_start').val());
     $('#first_start').on('input', function(p) {

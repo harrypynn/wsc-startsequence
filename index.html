@@ -26,6 +26,8 @@
                 <input type="radio" name="series" id="saturday" name="saturday" value="saturday">
                 <label for="wednesday">Wednesday</label>
                 <input type="radio" name="series" id="wednesday" name="wednesday" value="wednesday">
+                <label for="custom">Custom</label>
+                <input type="radio" name="series" id="custom" name="custom" value="custom">
             </div>
             <div>
                 <span>Sequence:</span>
@@ -35,6 +37,21 @@
                 <input type="radio" name="sequence" id="sequence3" name="sequence3" value="sequence3">
             </div>
             <div id="startList">
+            </div>
+            <div id="addCustom">
+                <fieldset id="addCustomStart">
+                    <div>Add custom start</div>
+                    <div>
+                        <label for="startName">Start Name:</label>
+                        <input type="text" id="startName" name="startName" required minlength="1" maxlength="20" size="19">
+                    </div>
+                    <div>
+                        <label for="startFlag">Start Flag:</label>
+                        <input type="text" id="startFlag" name="startFlag" required minlength="1" maxlength="20" size="20">
+                    </div>
+                    <button>Add</button>
+                    <button>Reset Custom Starts</button>
+            </fieldset>
             </div>
         </div>
     </div>
