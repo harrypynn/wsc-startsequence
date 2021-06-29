@@ -268,6 +268,16 @@ function clock(){
     //  update the countdown timer
     $("#countdown").html( secondsToHrsMinsSecs((nextActionTime - currentTime) /1000));
 }
+function loadSeries() {
+    var series = 'saturday';
+    if (window.localStorage.getItem("series")) {
+        series = window.localStorage.getItem("series");
+    }
+    var $radios = $('input:radio[name=series]');
+    if($radios.is(':checked') === false) {
+        $radios.filter('[value=' + series + ']').prop('checked', true);
+    }
+}
 function loadFirstStart() {
     if (window.localStorage.getItem("startTime." + getSelectedSeries())) {
         $('#first_start').val(window.localStorage.getItem("startTime." + getSelectedSeries()));
@@ -281,14 +291,7 @@ $(document).ready(function () {
     clock();
     setInterval(clock, 100);
 
-    var series = 'saturday';
-    if (window.localStorage.getItem("series")) {
-        series = window.localStorage.getItem("series");
-    }
-    var $radios = $('input:radio[name=series]');
-    if($radios.is(':checked') === false) {
-        $radios.filter('[value=' + series + ']').prop('checked', true);
-    }
+    loadSeries();
     loadFirstStart();
     $('input[name=series]').change(function() {
         window.localStorage.setItem("series", this.value);
