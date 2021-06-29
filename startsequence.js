@@ -139,7 +139,46 @@ function flagsFromStarts(starts, startTime, sequence) {
 }
 
 function flagsFromStarts5(starts, startTime) {
-    return flagsFromStarts3(starts, startTime);
+    var flags = [];
+    var flagTime = startTime;
+    flagTime = addMinutes(flagTime, -5);
+    $.each(starts, function (i, el) {
+        var lastStart = flags[flags.length - 1];
+        if (lastStart) {
+            lastStart.name = lastStart.name + ", " + el.name + " 5 minute";
+            lastStart.up = el.flag
+        }
+        else {
+            flags.push({
+                startName: el.name,
+                name: el.name + " 5 minute",
+                time: flagTime,
+                up: el.flag
+            });
+        }
+        flagTime = addMinutes(flagTime, 1);
+        flags.push({
+            startName: el.name,
+            name: el.name + " 4 minute",
+            time: flagTime,
+            up: 'P'
+        });
+        flagTime = addMinutes(flagTime, 3);
+        flags.push({
+            startName: el.name,
+            name: el.name + " 1 minute",
+            time: flagTime,
+            down: 'P'
+        });
+        flagTime = addMinutes(flagTime, 1);
+        flags.push({
+            startName: el.name,
+            name: el.name + " Start",
+            time: flagTime,
+            down: el.flag
+        });
+    });
+    return flags;
 }
 
 function flagsFromStarts3(starts, startTime) {
