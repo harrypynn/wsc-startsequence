@@ -134,7 +134,15 @@ function parseTime(timeString) {
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0, 0);
 }
 
-function flagsFromStarts(starts, startTime) {
+function flagsFromStarts(starts, startTime, sequence) {
+    return 'sequence5' == sequence ? flagsFromStarts5(starts, startTime) : flagsFromStarts3(starts, startTime);
+}
+
+function flagsFromStarts5(starts, startTime) {
+    return flagsFromStarts3(starts, startTime);
+}
+
+function flagsFromStarts3(starts, startTime) {
     var flags = [];
     var flagTime = startTime;
     flagTime = addMinutes(flagTime, -3);
@@ -181,7 +189,7 @@ function showStartSequence(starts, timeString) {
             $('<th/>')
         )
     );
-    var flags = flagsFromStarts(starts, startTime);
+    var flags = flagsFromStarts(starts, startTime, getSelectedSequence());
     $.each(flags, function (i, el) {
         $("#starts").append(
             $("<tr/>").attr({
