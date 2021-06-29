@@ -47,13 +47,21 @@ function getAllStarts() {
                 name: "Slow Handicap",
                 flag: "K"
             }
-        ],
-        'custom' : [
         ]
     };
     var series = getSelectedSeries();
-    return starts[series];
+    if ('custom' == series) {
+        return loadCustomStarts();
+    }
+    else {
+        return starts[series];
+    }
 }
+
+function loadCustomStarts() {
+    return JSON.parse(window.localStorage.getItem("customStarts")) || [];
+}
+
 function getSelectedSeries() {
     return $('input[type=radio][name=series]:checked').val();
 }
@@ -396,6 +404,29 @@ $(document).ready(function () {
         $('#startList').empty();
         showStartListCheckboxes(getAllStarts());
         $('#settings').toggle();
+    });
+    $('#submitCustomStart').on('click', function(p) {
+        var startName = $('#startName').val();
+        var startFlag = $('#startFlag').val();
+        var customStarts = loadCustomStarts();
+        customStarts.push({
+            name: startName,
+            flag: startFlag
+        });
+        window.localStorage.setItem("customStarts", JSON.stringify(customStarts));
+        $('#startName').val('');
+        $('#startFlag').val('');
+        $('#startList').empty();
+        showStartListCheckboxes(getAllStarts());
+        redrawStartList();
+    });
+    $('#resetCustomStarts').on('click', function(p) {  
+        window.localStorage.setItem("customStarts", JSON.stringify([]));
+        $('#startName').val('');
+        $('#startFlag').val('');
+        $('#startList').empty();
+        showStartListCheckboxes(getAllStarts());
+        redrawStartList();
     });
 
 });
