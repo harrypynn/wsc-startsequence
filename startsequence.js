@@ -55,6 +55,9 @@ function getAllStarts() {
 function getSelectedSeries() {
     return $('input[type=radio][name=series]:checked').val();
 }
+function getSelectedSequence() {
+    return $('input[type=radio][name=sequence]:checked').val();
+}
 function getRemovedStarts() {
     return JSON.parse(window.localStorage.getItem("removedStarts." + getSelectedSeries())) || [];
 }
@@ -130,18 +133,8 @@ function parseTime(timeString) {
     var minute = timeString.split(":")[1];
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0, 0);
 }
-function showStartSequence(starts, timeString) {
-    var startTime = parseTime(timeString);
-    $("#starts").empty().append(
-        $('<tr/>').append(
-            $('<th/>').text('Time'),
-            $('<th/>').text('Event'),
-            $('<th/>').text('Up'),
-            $('<th/>').text('Down'),
-            $('<th/>')
-        )
-    );
 
+function flagsFromStarts(starts, startTime) {
     var flags = [];
     var flagTime = startTime;
     flagTime = addMinutes(flagTime, -3);
@@ -174,6 +167,21 @@ function showStartSequence(starts, timeString) {
             down: el.flag
         });
     });
+    return flags;
+}
+
+function showStartSequence(starts, timeString) {
+    var startTime = parseTime(timeString);
+    $("#starts").empty().append(
+        $('<tr/>').append(
+            $('<th/>').text('Time'),
+            $('<th/>').text('Event'),
+            $('<th/>').text('Up'),
+            $('<th/>').text('Down'),
+            $('<th/>')
+        )
+    );
+    var flags = flagsFromStarts(starts, startTime);
     $.each(flags, function (i, el) {
         $("#starts").append(
             $("<tr/>").attr({
