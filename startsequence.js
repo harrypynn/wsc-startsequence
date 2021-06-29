@@ -278,6 +278,16 @@ function loadSeries() {
         $radios.filter('[value=' + series + ']').prop('checked', true);
     }
 }
+function loadSequence() {
+    var sequence = 'sequence3';
+    if (window.localStorage.getItem("sequence")) {
+        sequence = window.localStorage.getItem("sequence");
+    }
+    var $radios = $('input:radio[name=sequence]');
+    if($radios.is(':checked') === false) {
+        $radios.filter('[value=' + sequence + ']').prop('checked', true);
+    }
+}
 function loadFirstStart() {
     if (window.localStorage.getItem("startTime." + getSelectedSeries())) {
         $('#first_start').val(window.localStorage.getItem("startTime." + getSelectedSeries()));
@@ -292,9 +302,17 @@ $(document).ready(function () {
     setInterval(clock, 100);
 
     loadSeries();
+    loadSequence();
     loadFirstStart();
     $('input[name=series]').change(function() {
         window.localStorage.setItem("series", this.value);
+        $('#startList').empty();
+        showStartListCheckboxes(getAllStarts());
+        loadFirstStart();
+        showStartSequence(getSelectedStarts(), $('#first_start').val());
+    });
+    $('input[name=sequence]').change(function() {
+        window.localStorage.setItem("sequence", this.value);
         $('#startList').empty();
         showStartListCheckboxes(getAllStarts());
         loadFirstStart();
